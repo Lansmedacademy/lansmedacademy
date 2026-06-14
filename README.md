@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LANS MED Academy
 
 **Making Medicine Simple.** — the official website for LANS MED Academy, an African-founded global medical education platform by **Lansana Coomber**.
@@ -118,3 +119,21 @@ When ready to scale into the full ecosystem:
 ---
 
 © 2026 LANS MED Academy · Founded by Lansana Coomber.
+=======
+## Hi there 👋
+
+<!--
+**Lansmedacademy/lansmedacademy** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+
+Here are some ideas to get you started:
+
+- 🔭 I’m currently working on ...
+- 🌱 I’m currently learning ...
+- 👯 I’m looking to collaborate on ...
+- 🤔 I’m looking for help with ...
+- 💬 Ask me about ...
+- 📫 How to reach me: ...
+- 😄 Pronouns: ...
+- ⚡ Fun fact: ...
+-->
+>>>>>>> 35d5e6fca5e5f9f4d179a3b1ab86ed96460749c3
