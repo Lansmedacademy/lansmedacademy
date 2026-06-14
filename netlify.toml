@@ -1,0 +1,12 @@
+# Netlify configuration for LANS MED Academy (static site)
+[build]
+  publish = "."
+  command = ""
+
+# Nice-to-have security + caching headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

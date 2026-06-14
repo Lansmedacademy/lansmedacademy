@@ -1,0 +1,12 @@
+{
+  "name": "LANS MED Academy",
+  "short_name": "LANS MED",
+  "description": "Making Medicine Simple — medical education platform.",
+  "icons": [
+    { "src": "favicon.svg", "type": "image/svg+xml", "sizes": "any" }
+  ],
+  "theme_color": "#0c2742",
+  "background_color": "#0c2742",
+  "display": "standalone",
+  "start_url": "/"
+}

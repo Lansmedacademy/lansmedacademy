@@ -1,0 +1,13 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs / deps (for the future Next.js build)
+node_modules/
+*.log
+.env
+.netlify/
