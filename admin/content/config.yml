@@ -1,0 +1,178 @@
+# ============================================================================
+#  LANS MED Academy — Content Manager configuration (Decap CMS)
+#  This file tells the /admin dashboard what you can edit and where it saves.
+#  Content is stored as plain files in your GitHub repo (no database needed),
+#  and every save auto-deploys to https://lansmedacademy.com via Netlify.
+# ============================================================================
+
+backend:
+  name: git-gateway        # uses Netlify Identity + Git Gateway (free, no server)
+  branch: main             # IMPORTANT: change to "master" if that is your repo's default branch
+
+# Where uploaded IMAGES are stored by default (PDFs are overridden per-field below)
+media_folder: "uploads/images"     # files saved here in the repo
+public_folder: "/uploads/images"   # the URL the website uses to show them
+
+# Branding shown inside the admin UI
+site_url: https://lansmedacademy.com
+display_url: https://lansmedacademy.com
+logo_url: https://lansmedacademy.com/favicon/favicon.svg
+
+# A "file" collection = one tidy file holding a list of items. This keeps the
+# site fully static (no build step) — the website just reads these files.
+collections:
+
+  # -------------------------------------------------------------------------
+  - name: "blog"
+    label: "📝 Blog Posts"
+    files:
+      - name: "posts"
+        label: "Blog Posts"
+        file: "content/blog.json"
+        format: "json"
+        description: "Write and manage your blog articles."
+        fields:
+          - label: "Posts"
+            name: "posts"
+            label_singular: "Post"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options: ["Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine","Clinical Pearls","Medical School Tips"]
+              - { label: "Date", name: "date", widget: "datetime", required: false }
+              - { label: "Featured Image", name: "image", widget: "image", required: false }
+              - { label: "Short Summary", name: "summary", widget: "text" }
+              - { label: "Article Body", name: "body", widget: "markdown" }
+
+  # -------------------------------------------------------------------------
+  - name: "notes"
+    label: "📚 Medical Notes"
+    files:
+      - name: "notes"
+        label: "Medical Notes"
+        file: "content/notes.json"
+        format: "json"
+        description: "Upload study notes and attach downloadable PDFs."
+        fields:
+          - label: "Notes"
+            name: "notes"
+            label_singular: "Note"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Subject"
+                name: "subject"
+                widget: "select"
+                options: ["Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine"]
+              - label: "Year / Level"
+                name: "level"
+                widget: "select"
+                required: false
+                options: ["Year 1","Year 2","Year 3","Year 4","Year 5","All Levels"]
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Tags", name: "tags", widget: "list", required: false }
+              - { label: "Featured Image", name: "image", widget: "image", required: false }
+              # PDF is saved into uploads/pdfs (overrides the default image folder)
+              - label: "PDF File"
+                name: "pdf"
+                widget: "file"
+                required: false
+                media_folder: "/uploads/pdfs"
+                public_folder: "/uploads/pdfs"
+
+  # -------------------------------------------------------------------------
+  - name: "mcqs"
+    label: "❓ MCQ Bank"
+    files:
+      - name: "mcqs"
+        label: "MCQ Questions"
+        file: "content/mcqs.json"
+        format: "json"
+        description: "Add exam questions with options, the correct answer and an explanation."
+        fields:
+          - label: "Questions"
+            name: "questions"
+            label_singular: "Question"
+            widget: "list"
+            summary: "{{fields.topic}} — {{fields.question}}"
+            fields:
+              - label: "Topic"
+                name: "topic"
+                widget: "select"
+                options: ["Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine"]
+              - { label: "Difficulty", name: "difficulty", widget: "select", default: "Medium", options: ["Easy","Medium","Hard"] }
+              - { label: "Question", name: "question", widget: "text" }
+              - label: "Options"
+                name: "options"
+                widget: "list"
+                min: 2
+                field: { label: "Option", name: "option", widget: "string" }
+              - label: "Correct option number (1 = first option)"
+                name: "answer"
+                widget: "number"
+                value_type: "int"
+                min: 1
+                hint: "Type 1 if the first option is correct, 2 for the second, and so on."
+              - { label: "Explanation", name: "explanation", widget: "text" }
+
+  # -------------------------------------------------------------------------
+  - name: "illustrations"
+    label: "🖼️ Illustration Library"
+    files:
+      - name: "illustrations"
+        label: "Illustrations"
+        file: "content/illustrations.json"
+        format: "json"
+        description: "Upload medical diagrams and illustrations."
+        fields:
+          - label: "Illustrations"
+            name: "items"
+            label_singular: "Illustration"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "System / Category"
+                name: "system"
+                widget: "select"
+                options: ["Cardiovascular","Respiratory","Nervous","Digestive","Renal","Endocrine","Musculoskeletal","Reproductive","Cell Biology","Histology","Radiology"]
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+
+  # -------------------------------------------------------------------------
+  - name: "courses"
+    label: "🎓 Courses & Lessons"
+    files:
+      - name: "courses"
+        label: "Courses"
+        file: "content/courses.json"
+        format: "json"
+        description: "Build courses made up of individual lessons."
+        fields:
+          - label: "Courses"
+            name: "courses"
+            label_singular: "Course"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Course Title", name: "title", widget: "string" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options: ["Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine"]
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Featured Image", name: "image", widget: "image", required: false }
+              - label: "Lessons"
+                name: "lessons"
+                label_singular: "Lesson"
+                widget: "list"
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: "Lesson Title", name: "title", widget: "string" }
+                  - { label: "Video URL (optional)", name: "video", widget: "string", required: false }
+                  - { label: "Lesson Content", name: "body", widget: "markdown", required: false }

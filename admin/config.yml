@@ -1,0 +1,45 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "notes"
+    label: "Medical Notes"
+    folder: "content/notes"
+    create: true
+    slug: "{{slug}}"
+
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+
+      - label: "Subject"
+        name: "subject"
+        widget: "select"
+        options:
+          - Anatomy
+          - Physiology
+          - Biochemistry
+          - Pharmacology
+          - Pathology
+          - Internal Medicine
+          - Surgery
+          - Radiology
+          - Histology
+
+      - {label: "Upload PDF", name: "pdf", widget: "file", required: false}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Content", name: "body", widget: "markdown"}
+
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{slug}}"
+
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Article", name: "body", widget: "markdown"}
