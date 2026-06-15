@@ -49,42 +49,26 @@ collections:
               - { label: "Article Body", name: "body", widget: "markdown" }
 
   # -------------------------------------------------------------------------
-  - name: "notes"
-    label: "📚 Medical Notes"
-    files:
-      - name: "notes"
-        label: "Medical Notes"
-        file: "admin/content/notes.json"
-        format: "json"
-        description: "Upload study notes and attach downloadable PDFs."
-        fields:
-          - label: "Notes"
-            name: "notes"
-            label_singular: "Note"
-            widget: "list"
-            summary: "{{fields.title}}"
-            fields:
-              - { label: "Title", name: "title", widget: "string" }
-              - label: "Subject"
-                name: "subject"
-                widget: "select"
-                options: ["Anatomy","Physiology","Biochemistry","Pharmacology","Pathology","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine"]
-              - label: "Year / Level"
-                name: "level"
-                widget: "select"
-                required: false
-                options: ["Year 1","Year 2","Year 3","Year 4","Year 5","All Levels"]
-              - { label: "Description", name: "description", widget: "text", required: false }
-              - { label: "Tags", name: "tags", widget: "list", required: false }
-              - { label: "Featured Image", name: "image", widget: "image", required: false }
-              # PDF is saved into uploads/pdfs (overrides the default image folder)
-              - label: "PDF File"
-                name: "pdf"
-                widget: "file"
-                required: false
-                media_folder: "/uploads/pdfs"
-                public_folder: "/uploads/pdfs"
-
+  -- name: "notes"
+  label: "Medical Notes"
+  files:
+    - name: "notes"
+      label: "Medical Notes"
+      file: "admin/content/notes.json"
+      format: "json"
+      description: "Upload study notes and attach downloadable PDFs."
+      fields:
+        - label: "Notes"
+          name: "notes"
+          widget: "list"
+          summary: "{{fields.title}}"
+          fields:
+            - { label: "Title", name: "title", widget: "string" }
+            - { label: "Subject", name: "subject", widget: "string" }
+            - { label: "Year / Level", name: "level", widget: "string", required: false }
+            - { label: "Description", name: "description", widget: "text", required: false }
+            - { label: "Featured Image", name: "image", widget: "image", required: false }
+            - { label: "Content", name: "content", widget: "markdown" }
   # -------------------------------------------------------------------------
   - name: "mcqs"
     label: "❓ MCQ Bank"
