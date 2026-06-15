@@ -1,0 +1,43 @@
+# ============================================================================
+#  REPLACE your current Medical Notes collection in admin/config.yml with this.
+#  This changes Notes from a FOLDER collection (one .md per note, which a static
+#  site cannot list) to a FILE collection that saves ONE list into
+#  admin/content/notes.json — exactly what cms-content.js reads.
+#  Paste this block in place of the old "- name: notes ... folder: content/notes"
+#  collection. Keep your other collections (blog, mcqs, etc.) unchanged.
+# ============================================================================
+  - name: "notes"
+    label: "📚 Medical Notes"
+    files:
+      - name: "notes"
+        label: "Medical Notes"
+        file: "admin/content/notes.json"   # saves the list here
+        format: "json"
+        description: "Add and manage medical notes (saved together as one list)."
+        fields:
+          - label: "Notes"
+            name: "notes"                  # -> JSON key "notes": [ ... ]
+            label_singular: "Note"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Subject"
+                name: "subject"
+                widget: "select"
+                options: ["Anatomy","Physiology","Pathology","Pharmacology","Biochemistry","Internal Medicine","Surgery","Radiology","Histology","Clinical Medicine"]
+              - { label: "Short Description / Excerpt", name: "description", widget: "text", required: false }
+              - { label: "Slug", name: "slug", widget: "string", required: false, hint: "Optional URL-friendly id, e.g. type-1-vs-type-2-diabetes" }
+              - label: "Featured Image"
+                name: "featuredImage"
+                widget: "image"
+                required: false
+                media_folder: "/uploads/images"
+                public_folder: "/uploads/images"
+              - label: "PDF File"
+                name: "pdf"
+                widget: "file"
+                required: false
+                media_folder: "/uploads/pdfs"
+                public_folder: "/uploads/pdfs"
+              - { label: "Full Content", name: "content", widget: "markdown", required: false }

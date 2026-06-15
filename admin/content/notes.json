@@ -1,10 +1,11 @@
 {
   "notes": [
     {
-      "title": "Type 1 vs Type 2 Diabetes",
+      "title": "TYPE 1 VS TYPE 2 DIABETES",
       "subject": "Pathology",
-      "description": "Differences between Type 1 and Type 2 Diabetes Mellitus.",
-      "slug": "type-1-vs-type-2-diabetes"
+      "slug": "type-1-vs-type-2-diabetes",
+      "image": "/uploads/diabetes-mellitus-.png",
+      "description": "Differences between Type 1 and Type 2 Diabetes Mellitus."
     }
   ]
 }

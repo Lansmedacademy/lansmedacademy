@@ -129,6 +129,17 @@
     { title: "Cranial Nerves Made Easy", subject: "Anatomy", level: "Year 1", description: "Functions, foramina and lesions for all twelve, with mnemonics." }
   ];
 
+  // Read note fields flexibly so the connector matches your config.yml schema
+  // (title, subject, description, slug, featuredImage, pdf, content).
+  function noteImage(n) { return n.featuredImage || n.image || ""; }
+  function noteBody(n) { return n.content || n.body || ""; }
+  function plainText(md) { return String(md || "").replace(/[#*_`>\[\]()!~-]/g, " ").replace(/\s+/g, " ").trim(); }
+  function noteExcerpt(n) {
+    if (n.description) return n.description;
+    const t = plainText(noteBody(n));
+    return t.length > 150 ? t.slice(0, 150) + "…" : t;
+  }
+
   let NOTES = [];            // active note list (CMS or demo)
   let notesFilter = "all";   // current subject filter
   let notesQuery = "";       // current search text
@@ -149,7 +160,7 @@
         (n.level ? '<span class="yr">' + esc(n.level) + '</span>' : "") +
       '</div>' +
       '<h4>' + esc(n.title) + '</h4>' +
-      '<p>' + esc(n.description || "") + '</p>' +
+      '<p>' + esc(noteExcerpt(n)) + '</p>' +
       '<div class="foot">' + pdf +
         '<button class="bm" aria-label="Bookmark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>' +
       '</div>';
@@ -167,7 +178,7 @@
     notesGridEl.innerHTML = "";
     const list = NOTES.filter((n) => {
       const okF = notesFilter === "all" || n.subject === notesFilter || n.level === notesFilter;
-      const hay = ((n.title || "") + " " + (n.description || "") + " " + ((n.tags || []).join(" "))).toLowerCase();
+      const hay = ((n.title || "") + " " + (n.description || "") + " " + noteBody(n) + " " + ((n.tags || []).join(" "))).toLowerCase();
       return okF && hay.includes(notesQuery);
     });
     if (!list.length) {
@@ -180,8 +191,10 @@
   // Open the full note in the reading modal (task 6 & 7).
   async function openNote(n) {
     const col = colorFor(n.subject);
-    const img = n.image ? '<img src="' + esc(n.image) + '" alt="' + esc(n.title) + '" style="width:100%;border-radius:14px;margin-bottom:16px;">' : "";
-    const body = n.body ? await mdToHtml(n.body) : ("<p>" + esc(n.description || "") + "</p>");
+    const imgSrc = noteImage(n);
+    const img = imgSrc ? '<img src="' + esc(imgSrc) + '" alt="' + esc(n.title) + '" style="width:100%;border-radius:14px;margin-bottom:16px;">' : "";
+    const bd = noteBody(n);
+    const body = bd ? await mdToHtml(bd) : ("<p>" + esc(n.description || "") + "</p>");
     const tags = (n.tags && n.tags.length) ? '<p style="margin-top:14px;">' + n.tags.map((t) => '<span class="cms-tag-pill">' + esc(t) + '</span>').join(" ") + "</p>" : "";
     const pdf = n.pdf
       ? '<p style="margin-top:18px;"><a class="cms-pdf-btn" href="' + esc(n.pdf) + '" target="_blank" rel="noopener" download>⬇ Download PDF</a></p>'
