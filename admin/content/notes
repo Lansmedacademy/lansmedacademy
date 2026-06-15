@@ -1,0 +1,7 @@
+- name: "notes"
+  label: "Medical Notes"
+  files:
+    - name: "notes"
+      label: "Medical Notes"
+      file: "admin/content/notes.json"
+      format: "json"
