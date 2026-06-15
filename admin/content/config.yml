@@ -54,7 +54,7 @@ collections:
     files:
       - name: "notes"
         label: "Medical Notes"
-        file: "content/notes.json"
+        file: "admin/content/notes.json"
         format: "json"
         description: "Upload study notes and attach downloadable PDFs."
         fields:
