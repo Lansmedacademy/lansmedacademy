@@ -132,7 +132,7 @@
   // Read note fields flexibly so the connector matches your config.yml schema
   // (title, subject, description, slug, featuredImage, pdf, content).
   function noteImage(n) { return n.featuredImage || n.image || ""; }
-  function noteBody(n) { return n.content || n.body || ""; }
+  function noteBody(n) { return n.content || n.body || n.text || n.markdown || ""; }
   function plainText(md) { return String(md || "").replace(/[#*_`>\[\]()!~-]/g, " ").replace(/\s+/g, " ").trim(); }
   function noteExcerpt(n) {
     if (n.description) return n.description;
@@ -193,8 +193,11 @@
     const col = colorFor(n.subject);
     const imgSrc = noteImage(n);
     const img = imgSrc ? '<img src="' + esc(imgSrc) + '" alt="' + esc(n.title) + '" style="width:100%;border-radius:14px;margin-bottom:16px;">' : "";
-    const bd = noteBody(n);
-    const body = bd ? await mdToHtml(bd) : ("<p>" + esc(n.description || "") + "</p>");
+    // 1) featured image  2) subject  3) title  4) description  5) full content
+    const desc = n.description ? '<p class="cms-lead">' + esc(n.description) + '</p>' : "";
+    const bd = noteBody(n);                       // content | body | text | markdown
+    const bodyHtml = bd ? await mdToHtml(bd) : "";
+    const main = (desc || bodyHtml) ? (desc + bodyHtml) : "<p>(No content added yet.)</p>";
     const tags = (n.tags && n.tags.length) ? '<p style="margin-top:14px;">' + n.tags.map((t) => '<span class="cms-tag-pill">' + esc(t) + '</span>').join(" ") + "</p>" : "";
     const pdf = n.pdf
       ? '<p style="margin-top:18px;"><a class="cms-pdf-btn" href="' + esc(n.pdf) + '" target="_blank" rel="noopener" download>⬇ Download PDF</a></p>'
@@ -203,7 +206,7 @@
       img +
       '<span class="cms-modal-tag" style="color:' + col + '">' + esc(n.subject || "") + (n.level ? " · " + esc(n.level) : "") + "</span>" +
       '<h2 style="margin:6px 0 12px;">' + esc(n.title) + "</h2>" +
-      '<div class="cms-prose">' + body + "</div>" + tags + pdf
+      '<div class="cms-prose">' + main + "</div>" + tags + pdf
     );
   }
 
@@ -417,6 +420,7 @@
       ".cms-prose{color:var(--ink-soft);line-height:1.7;font-size:1.02rem}" +
       ".cms-prose h1,.cms-prose h2,.cms-prose h3{color:var(--ink);margin:18px 0 8px}" +
       ".cms-prose p{margin:0 0 14px}.cms-prose ul,.cms-prose ol{margin:0 0 14px 22px}" +
+      ".cms-lead{font-size:1.08rem;color:var(--ink);font-weight:500;margin:0 0 14px}" +
       ".cms-prose img{max-width:100%;border-radius:12px;margin:10px 0}" +
       ".cms-prose a{color:var(--teal);text-decoration:underline}" +
       ".cms-tag-pill{display:inline-block;font-size:.74rem;font-weight:600;color:var(--muted);background:var(--bg-tint);padding:4px 10px;border-radius:100px;margin:0 4px 4px 0}" +
